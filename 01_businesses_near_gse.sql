@@ -11,12 +11,7 @@
   The latter should be used if getting distances for ORDER BY.
 */
 
-select SELECT st_distance(
-    ST_Transform(st_setsrid(st_point(-75.19725, 39.95323), 4326),3857),
-    ST_Transform(the_geom, 3857)
-  ) distance,
-  *
-FROM public.business_licenses
-where opa_owner not like '%TRUSTEE%'
-order by distance
+select * from business_licenses
+where opa_owner not like 'trustees of %'
+order by the_geom <-> st_setsrid(st_makepoint(-75.1972, 39.9533), 4326)
 limit 5
